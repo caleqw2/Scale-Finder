@@ -10,25 +10,21 @@
 
 using scalefinder::Pitch;
 
-TEST_CASE("Random sanity test", "[random]") {
-  const float random = cinder::randFloat();
-  REQUIRE(0. <= random);
-  REQUIRE(random <= 1.);
-  std::cout << "Hi!" << std::endl;
+TEST_CASE("Pitch constructors") {
+  REQUIRE(Pitch("C3").to_string() == "C3");
+  REQUIRE(Pitch("Cbb7").to_string() == "Cbb7");
+  REQUIRE(Pitch("A#2").to_string() == "A#2");
+
+  std::vector<int> vec = {1, 2, 4};
+  REQUIRE(Pitch(vec).to_string() == "D3");
 }
 
-TEST_CASE("Pitch string constructor") {
-  //REQUIRE(Pitch("C3").to_string() == "C3");
-  //REQUIRE(Pitch("Cbb7").to_string() == "Cbb7");
-  //REQUIRE(Pitch("A#2").to_string() == "A#2");
-  Pitch pitch = Pitch("D2");
-  std::cout << pitch << std::endl;
-  Pitch haha = Pitch("D2");
-  std::cout << haha << std::endl;
-
-  std::vector<int> vec = {1, 2, 3};
-  Pitch vec_pitch = Pitch(vec);
-  std::cout << vec_pitch << std::endl;
-
-  REQUIRE(haha == vec_pitch);
+TEST_CASE("Pitch equality operators") {
+  REQUIRE(Pitch("C3") == Pitch("C3"));
+  REQUIRE(Pitch("C3") != Pitch("C4"));
+  REQUIRE(Pitch("C3") <= Pitch("C4"));
+  REQUIRE(Pitch("C3") < Pitch("C4"));
+  REQUIRE(Pitch("C3") >= Pitch("C2"));
+  REQUIRE(Pitch("C3") > Pitch("Cb3"));
+  REQUIRE(Pitch("C#3") < Pitch("Db3"));
 }
