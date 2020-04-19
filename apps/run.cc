@@ -3,8 +3,7 @@
 #include <cinder/app/App.h>
 #include <cinder/app/RendererGl.h>
 
-#include "my_app.h"
-
+#include "scale_finder_app.h"
 
 using cinder::app::App;
 using cinder::app::RendererGl;
@@ -19,6 +18,7 @@ const int kHeight = 800;
 void SetUp(App::Settings* settings) {
   settings->setWindowSize(kWidth, kHeight);
   settings->setTitle("My CS 126 Application");
+  settings->setHighDensityDisplayEnabled();
 }
 
 }  // namespace myapp
