@@ -20,9 +20,15 @@ TEST_CASE("Random sanity test", "[random]") {
 TEST_CASE("Pitch string constructor") {
   //REQUIRE(Pitch("C3").to_string() == "C3");
   //REQUIRE(Pitch("Cbb7").to_string() == "Cbb7");
-  REQUIRE(Pitch("A#2").to_string() == "A#2");
-  Pitch pitch = Pitch("Ab6");
+  //REQUIRE(Pitch("A#2").to_string() == "A#2");
+  Pitch pitch = Pitch("D2");
   std::cout << pitch << std::endl;
+  Pitch haha = Pitch("D2");
+  std::cout << haha << std::endl;
+
   std::vector<int> vec = {1, 2, 3};
-  Pitch haha = Pitch(vec);
+  Pitch vec_pitch = Pitch(vec);
+  std::cout << vec_pitch << std::endl;
+
+  REQUIRE(haha == vec_pitch);
 }
