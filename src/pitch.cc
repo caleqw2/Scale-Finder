@@ -165,18 +165,25 @@ Pitch Pitch::FromKeynum(int keynum, std::string acci) {
     if (pc == 1) {
       octave_number -= 1;
     }
-    two_sharp = ["x", "B##", "C##", "x", "D##", "x", "E##", "F##", "x", "G##", "x", "A##"]
-    pitch_name = two_sharp[pc] + str(octave_names[octave_number])
+    std::string two_sharp[] = {"x", "B##", "C##", "x", "D##", "x", "E##", "F##", "x", "G##", "x", "A##"};
+    pitch_name = two_sharp[pc] + octave_names[octave_number];
+
   } else if (acci == "bb" || acci == "ff") {
-    if pc == 10:
-    octave_number += 1
-    two_flat = ["Dbb", "x", "Ebb", "Fbb", "x", "Gbb", "x", "Abb", "x", "Bbb", "Cbb", "x"]
-    pitch_name = two_flat[pc] + str(octave_names[octave_number])
+    if (pc == 10) {
+      octave_number += 1;
+    }
+    std::string two_flat[] = {"Dbb", "x", "Ebb", "Fbb", "x", "Gbb", "x", "Abb", "x", "Bbb", "Cbb", "x"};
+    pitch_name = two_flat[pc] + octave_names[octave_number];
+
   } else {
     throw std::runtime_error("Your accidental was formatted incorrectly.");
   }
 
+  if (pitch_name[0] == 'x') {
+    throw std::runtime_error("That accidental doesn't work with that pitch class.");
+  }
 
+  return Pitch(pitch_name);
 }
 int Pitch::GetAccidental() { return accidental_; }
 int Pitch::GetLetter() { return letter_; }
