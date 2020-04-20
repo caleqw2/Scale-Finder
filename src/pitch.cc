@@ -134,7 +134,49 @@ int Pitch::PitchClass() {
 
 Pitch Pitch::FromKeynum(int keynum, std::string acci) {
   // TODO: Implement this.
-  return Pitch("C3");
+  if (keynum > 127 || keynum < 0) {
+    throw std::runtime_error("Invalid midi number");
+  }
+  const std::string octave_names[] = {"00", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+  int octave_number = keynum / 12;
+  int pc = keynum % 12;
+
+  std::string pitch_name;
+
+  if (acci == "None") {
+    std::string no_accidentals[] = {"C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"};
+    pitch_name = no_accidentals[pc] + octave_names[octave_number];
+
+  } else if (acci == "#" || acci == "s") {
+    if (pc == 0) {
+      octave_number -= 1;
+    }
+    std::string sharp[] = {"B#", "C#", "x", "D#", "x", "E#", "F#", "x", "G#", "x", "A#", "x"};
+    pitch_name = sharp[pc] + octave_names[octave_number];
+
+  } else if (acci == "b" || acci == "f") {
+    if (pc == 11) {
+      octave_number += 1;
+    }
+    std::string flat[] = {"x", "Db", "x", "Eb", "Fb", "x", "Gb", "x", "Ab", "x", "Bb", "Cb"};
+    pitch_name = flat[pc] + octave_names[octave_number];
+
+  } else if (acci == "##" || acci == "ss") {
+    if (pc == 1) {
+      octave_number -= 1;
+    }
+    two_sharp = ["x", "B##", "C##", "x", "D##", "x", "E##", "F##", "x", "G##", "x", "A##"]
+    pitch_name = two_sharp[pc] + str(octave_names[octave_number])
+  } else if (acci == "bb" || acci == "ff") {
+    if pc == 10:
+    octave_number += 1
+    two_flat = ["Dbb", "x", "Ebb", "Fbb", "x", "Gbb", "x", "Abb", "x", "Bbb", "Cbb", "x"]
+    pitch_name = two_flat[pc] + str(octave_names[octave_number])
+  } else {
+    throw std::runtime_error("Your accidental was formatted incorrectly.");
+  }
+
+
 }
 int Pitch::GetAccidental() { return accidental_; }
 int Pitch::GetLetter() { return letter_; }
