@@ -133,7 +133,7 @@ int Pitch::PitchClass() {
 }
 
 Pitch Pitch::FromKeynum(int keynum, std::string acci) {
-  // TODO: Implement this.
+
   if (keynum > 127 || keynum < 0) {
     throw std::runtime_error("Invalid midi number");
   }
