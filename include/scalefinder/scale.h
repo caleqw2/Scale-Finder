@@ -9,6 +9,7 @@
 
 #include "pitch.h"
 #include "scaletype.h"
+#include "interval.h"
 
 namespace scalefinder {
 
@@ -20,11 +21,14 @@ class Scale {
   const std::map<ScaleType, std::string> scale_names = {
       {ScaleType::kMajor, "Major"}
   };
-
   Scale(Pitch tonic, ScaleType type);
+  std::string ToString();
+
  private:
-  std::vector<Pitch> notes_;
   std::string name_;
+  std::vector<Pitch> notes_;
+  static std::string GetScaleName(Pitch& tonic, const std::string& type_name);
+  static std::vector<Pitch> DetermineNotes(Pitch& tonic, const std::vector<std::string>& intervals);
 };
 
 }  // namespace scalefinder

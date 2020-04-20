@@ -10,9 +10,9 @@
 
 namespace scalefinder {
 
-const std::string letter_names[] = {"C", "D", "E", "F", "G", "A", "B"};
-const std::string accidental_names[] = {"bb", "b", "", "#", "##"};
-const std::string octave_names[] = {"00", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+const std::string kLetterNames[] = {"C", "D", "E", "F", "G", "A", "B"};
+const std::string kAccidentalNames[] = {"bb", "b", "", "#", "##"};
+const std::string kOctaveNames[] = {"00", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
 
 class Pitch {
  public:
@@ -32,16 +32,17 @@ class Pitch {
   bool operator<(const Pitch& other) const;
   bool operator>(const Pitch& other) const;
 
-  std::string to_string();
+  std::string ToString();
 
   // Returns the int MIDI key number of that pitch
-  int keynum();
+  int Keynum();
 
   // Returns the pitch class (an int 1-12)
-  int pc();
+  int PitchClass();
 
   // Creates and returns a pitch from a keynum.
-  static Pitch from_keynum(int keynum, std::string acci);
+  // TODO: Implement this!!!
+  static Pitch FromKeynum(int keynum, std::string acci);
 
  private:
   int letter_ = -1; // 0-6, for letters ['C', 'D', 'E', 'F', 'G', 'A', 'B']
@@ -50,11 +51,11 @@ class Pitch {
   int pos_ = -1; // A unique integer to help in comparing pitches.
 
   // Helper function used to calculate pos_. Used in constructor.
-  int get_pos();
+  int GetPos();
   // Helper function to check if a string is numeric.
-  static bool is_numeric(const std::string& value);
+  static bool IsNumeric(const std::string& value);
   // Helper function in constructor to determine octave_.
-  static int find_octave_index(const std::string& copy, int pos);
+  static int FindOctaveIndex(const std::string& copy, int pos);
 };
 
 }  // namespace scalefinder

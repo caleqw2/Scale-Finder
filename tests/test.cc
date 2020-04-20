@@ -3,19 +3,17 @@
 #define CATCH_CONFIG_MAIN
 
 #include <cinder/Rand.h>
-#include <scalefinder/example.h>
 #include <scalefinder/pitch.h>
-
 #include <catch2/catch.hpp>
 
 using scalefinder::Pitch;
 
 TEST_CASE("Pitch constructors") {
-  REQUIRE(Pitch("C3").to_string() == "C3");
-  REQUIRE(Pitch("Cbb7").to_string() == "Cbb7");
-  REQUIRE(Pitch("A#2").to_string() == "A#2");
+  REQUIRE(Pitch("C3").ToString() == "C3");
+  REQUIRE(Pitch("Cbb7").ToString() == "Cbb7");
+  REQUIRE(Pitch("A#2").ToString() == "A#2");
 
-  REQUIRE(Pitch(1, 2, 4).to_string() == "D3");
+  REQUIRE(Pitch(1, 2, 4).ToString() == "D3");
 }
 
 TEST_CASE("Pitch equality operators") {
