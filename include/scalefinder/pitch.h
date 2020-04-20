@@ -44,6 +44,9 @@ class Pitch {
   // TODO: Implement this!!!
   static Pitch FromKeynum(int keynum, std::string acci);
 
+  // Helper function to check if a string is numeric.
+  static bool IsNumeric(const std::string& value);
+
  private:
   int letter_ = -1; // 0-6, for letters ['C', 'D', 'E', 'F', 'G', 'A', 'B']
   int accidental_ = -1; // 0-4 for accidentals ['bb', 'b', '', '#', '##']
@@ -52,8 +55,6 @@ class Pitch {
 
   // Helper function used to calculate pos_. Used in constructor.
   int GetPos();
-  // Helper function to check if a string is numeric.
-  static bool IsNumeric(const std::string& value);
   // Helper function in constructor to determine octave_.
   static int FindOctaveIndex(const std::string& copy, int pos);
 };

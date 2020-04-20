@@ -10,7 +10,7 @@
 
 namespace scalefinder {
 
-const std::string qual_list[] = {"ooooo", "oooo", "ooo", "oo", "o", "m", "P", "M", "+", "++", "+++", "++++", "+++++"};
+const std::string kQualList[] = {"ooooo", "oooo", "ooo", "oo", "o", "m", "P", "M", "+", "++", "+++", "++++", "+++++"};
 
 class Interval {
  public:
@@ -34,6 +34,7 @@ class Interval {
 
   // Helper function used to calculate pos_. Used in constructor.
   int get_pos();
+  static int FindQualIndex(const std::string& qual_string);
 };
 
 }  // namespace scalefinder

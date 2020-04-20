@@ -4,9 +4,11 @@
 
 #include <cinder/Rand.h>
 #include <scalefinder/pitch.h>
+#include <scalefinder/interval.h>
 #include <catch2/catch.hpp>
 
 using scalefinder::Pitch;
+using scalefinder::Interval;
 
 TEST_CASE("Pitch constructors") {
   REQUIRE(Pitch("C3").ToString() == "C3");
@@ -24,4 +26,9 @@ TEST_CASE("Pitch equality operators") {
   REQUIRE(Pitch("C3") >= Pitch("C2"));
   REQUIRE(Pitch("C3") > Pitch("Cb3"));
   REQUIRE(Pitch("C#3") < Pitch("Db3"));
+}
+
+TEST_CASE("Intervals") {
+  Interval interval = Interval("m5");
+  std::cout << interval << std::endl;
 }
