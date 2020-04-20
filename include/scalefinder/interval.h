@@ -24,7 +24,7 @@ class Interval {
   std::string ToString();
 
   // Transposes a pitch by the current interval.
-  Pitch Transpose(const Pitch& bottom);
+  Pitch Transpose(Pitch& bottom);
 
  private:
   int span_ = -1;
@@ -35,6 +35,8 @@ class Interval {
   // Helper function used to calculate pos_. Used in constructor.
   int get_pos();
   static int FindQualIndex(const std::string& qual_string);
+  int GetSemitones();
+  bool IsPerfectType();
 };
 
 }  // namespace scalefinder

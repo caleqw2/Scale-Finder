@@ -136,5 +136,7 @@ Pitch Pitch::FromKeynum(int keynum, std::string acci) {
   // TODO: Implement this.
   return Pitch("C3");
 }
+int Pitch::GetAccidental() { return accidental_; }
+int Pitch::GetLetter() { return letter_; }
 
 }  // namespace scalefinder

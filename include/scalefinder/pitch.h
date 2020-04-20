@@ -47,6 +47,9 @@ class Pitch {
   // Helper function to check if a string is numeric.
   static bool IsNumeric(const std::string& value);
 
+  int GetAccidental();
+  int GetLetter();
+
  private:
   int letter_ = -1; // 0-6, for letters ['C', 'D', 'E', 'F', 'G', 'A', 'B']
   int accidental_ = -1; // 0-4 for accidentals ['bb', 'b', '', '#', '##']
