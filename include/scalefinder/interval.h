@@ -32,8 +32,6 @@ class Interval {
   int xoct_ = -1;
   int sign_ = 1;
 
-  // Helper function used to calculate pos_. Used in constructor.
-  int get_pos();
   static int FindQualIndex(const std::string& qual_string);
   int GetSemitones();
   bool IsPerfectType();

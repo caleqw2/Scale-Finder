@@ -14,21 +14,23 @@
 namespace scalefinder {
 
 class Scale {
- public:
   const std::map<ScaleType, std::vector<std::string>> scale_intervals = {
-      {ScaleType::kMajor, {"m2, m3, m3"}}
+      {ScaleType::kMajor, {"P1", "M2", "M3", "P4", "P5", "M6", "M7", "P8"}}
   };
   const std::map<ScaleType, std::string> scale_names = {
       {ScaleType::kMajor, "Major"}
   };
+
+ public:
   Scale(Pitch tonic, ScaleType type);
   std::string ToString();
-
+  friend std::ostream& operator<<(std::ostream& os, Scale& scale);
  private:
-  std::string name_;
-  std::vector<Pitch> notes_;
+  std::string name_; // e.g. (B Major or C# Dorian)
+  std::vector<Pitch> notes_; // All the Pitches in the scale.
   static std::string GetScaleName(Pitch& tonic, const std::string& type_name);
-  static std::vector<Pitch> DetermineNotes(Pitch& tonic, const std::vector<std::string>& intervals);
+  static std::vector<Pitch> DetermineNotes(Pitch& tonic,
+      const std::vector<std::string>& intervals);
 };
 
 }  // namespace scalefinder

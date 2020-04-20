@@ -33,6 +33,7 @@ class Pitch {
   bool operator>(const Pitch& other) const;
 
   std::string ToString();
+  std::string GetNote();
 
   // Returns the int MIDI key number of that pitch
   int Keynum();

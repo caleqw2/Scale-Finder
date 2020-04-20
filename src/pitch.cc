@@ -188,4 +188,8 @@ Pitch Pitch::FromKeynum(int keynum, std::string acci) {
 int Pitch::GetAccidental() { return accidental_; }
 int Pitch::GetLetter() { return letter_; }
 
+std::string Pitch::GetNote() {
+  return kLetterNames[letter_] + kAccidentalNames[accidental_];
+}
+
 }  // namespace scalefinder

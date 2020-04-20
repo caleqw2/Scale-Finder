@@ -5,10 +5,16 @@
 #include <cinder/Rand.h>
 #include <scalefinder/pitch.h>
 #include <scalefinder/interval.h>
+#include <scalefinder/scale.h>
+#include <scalefinder/scaletype.h>
 #include <catch2/catch.hpp>
 
 using scalefinder::Pitch;
 using scalefinder::Interval;
+using scalefinder::Scale;
+using scalefinder::ScaleType;
+
+/*
 
 TEST_CASE("Pitch constructors") {
   REQUIRE(Pitch("C3").ToString() == "C3");
@@ -31,4 +37,11 @@ TEST_CASE("Pitch equality operators") {
 TEST_CASE("Intervals") {
   Interval interval = Interval("m5");
   std::cout << interval << std::endl;
+}
+
+ */
+
+TEST_CASE("The Big Test!") {
+  Scale scale = Scale(Pitch("B4"), ScaleType::kMajor);
+  std::cout << scale.ToString() << std::endl;
 }

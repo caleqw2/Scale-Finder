@@ -9,19 +9,17 @@
 namespace scalefinder {
 
 Scale::Scale(Pitch tonic, ScaleType type) {
-  if (scale_intervals.count(type) == 0) {
-    throw std::runtime_error("Scale type not found!");
-  }
-
+  assert(scale_intervals.count(type) != 0);
   name_ = GetScaleName(tonic, scale_names.at(type));
   notes_ = DetermineNotes(tonic, scale_intervals.at(type));
 }
 
 std::string Scale::GetScaleName(Pitch& tonic, const std::string& type_name) {
-  return tonic.ToString().substr(0, 1) + " " + type_name;
+  return tonic.GetNote() + " " + type_name;
 }
 
-std::vector<Pitch> Scale::DetermineNotes(Pitch& tonic, const std::vector<std::string>& intervals) {
+std::vector<Pitch> Scale::DetermineNotes(Pitch& tonic,
+    const std::vector<std::string>& intervals) {
   std::vector<Pitch> notes;
 
   for (const std::string& interval_string : intervals) {
@@ -34,11 +32,21 @@ std::vector<Pitch> Scale::DetermineNotes(Pitch& tonic, const std::vector<std::st
 
 std::string Scale::ToString() {
   std::stringstream output;
-  output << name_ + " ";
+  output << name_ + ": [";
   for (Pitch pitch : notes_) {
-    output << pitch.ToString().substr(0, 1) + ", ";
+    output << pitch.GetNote() + ", ";
   }
-  return output.str();
+  std::string output_str = output.str();
+  output_str.pop_back();
+  output_str.pop_back();
+  output_str += "]";
+
+  return output_str;
+}
+
+std::ostream& operator<<(std::ostream& os, Scale& scale) {
+  os << scale.ToString();
+  return os;
 }
 
 }  // namespace scalefinder

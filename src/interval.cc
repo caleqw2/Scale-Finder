@@ -29,7 +29,7 @@ Interval::Interval(const std::string& str) {
       if (span_ % 7 == 0 && span_ != 0) {
         xoct_ -= 1;
         span_ = 7;
-      } else if (span_ > 7) {
+      } else if (span_ > 7) { // Simplifies compound intervals
         span_ %= 7;
       }
       break;
@@ -37,15 +37,6 @@ Interval::Interval(const std::string& str) {
   }
 
   // TODO: Important, I'm neglecting edge cases here.
-}
-
-int Interval::FindQualIndex(const std::string& qual_string) {
-  for (int i = 0; i < 13; ++i) { // TODO: Replace magic number
-    if (kQualList[i] == qual_string) {
-      return i;
-    }
-  }
-  return -1;
 }
 
 std::string Interval::ToString() {
@@ -59,56 +50,60 @@ std::ostream& operator<<(std::ostream& os, Interval& interval) {
 }
 
 Pitch Interval::Transpose(Pitch& other) {
-  int semi = GetSemitones();
-  int old_keynum = other.Keynum();
-  int new_keynum = old_keynum + semi;
-  int acci = 0;
+  /* Determines the new pitch's MIDI key number by adding the interval's
+   * semitones to the old key number.
+   */
+  int new_keynum = other.Keynum() + GetSemitones();
+
+  int new_acci = 0;
 
   const int kInvalid = 100;
   const int perfect_modifiers[] = {-5, -4, -3, -2, -1, kInvalid, 0, kInvalid, 1, 2, 3, 4, 5};
   const int imperfect_modifiers[] = {-6, -5, -4, -3, -2, -1, kInvalid, 0, 1, 2, 3, 4, 5};
-    int const1[] = {2, 6};
-    int const2[] = {1, 2, 5, 6};
-    int const3[] = {1, 2, 4, 5, 6};
-    int const4[] = {2, 5, 6};
-    int const5[] = {0, 1, 2, 3, 4};
+  const int const1[] = {2, 6};
+  const int const2[] = {1, 2, 5, 6};
+  const int const3[] = {1, 2, 4, 5, 6};
+  const int const4[] = {2, 5, 6};
+  const int const5[] = {0, 1, 2, 3, 4};
 
   if (IsPerfectType()) {
-      acci = other.GetAccidental() + sign_ * perfect_modifiers[qual_];
+      new_acci = other.GetAccidental() + sign_ * perfect_modifiers[qual_];
+
+      // Edge cases.
       if (span_ == 4 && other.GetLetter() == 6) {
-          acci += 1;
+          new_acci += 1;
       } else if (span_ == 3 && other.GetLetter() == 3) {
-          acci -= 1;
+          new_acci -= 1;
       }
 
   } else {
-      acci = other.GetAccidental() + sign_ * imperfect_modifiers[qual_];
+      new_acci = other.GetAccidental() + sign_ * imperfect_modifiers[qual_];
 
       // Whole lot of edge cases.
       if (span_ == 1 && std::count(const1, const1 + (sizeof(const1) / sizeof(const1[0])), other.GetLetter()) > 0) {
-          acci += 1;
+          new_acci += 1;
       } else if (span_ == 2 && std::count(const2, const2 + (sizeof(const2) / sizeof(const2[0])), other.GetLetter()) > 0) {
-          acci += 1;
+          new_acci += 1;
       } else if (span_ == 6 && std::count(const3, const3 + (sizeof(const3) / sizeof(const3[0])), other.GetLetter()) > 0) {
-          acci -= 1;
+          new_acci -= 1;
       } else if (span_ == 5 && std::count(const4, const4 + (sizeof(const4) / sizeof(const4[0])), other.GetLetter()) > 0) {
-          acci -= 1;
+          new_acci -= 1;
       }
   }
 
-  if (std::count(const5, const5 + (sizeof(const5) / sizeof(const5[0])), acci) == 0) {
+  if (std::count(const5, const5 + (sizeof(const5) / sizeof(const5[0])), new_acci) == 0) {
       throw std::runtime_error("Transposition invalid because a pitch couldn't be created with that accidental.");
   }
 
   std::string possible_accis[] = {"bb", "b", "None", "#", "##"};
-  return Pitch::FromKeynum(new_keynum, possible_accis[acci]);
+  return Pitch::FromKeynum(new_keynum, possible_accis[new_acci]);
 }
 
 int Interval::GetSemitones() {
-    int semitone_list[] = {0, 2, 4, 5, 7, 9, 11, 12};
+    const int semitone_list[] = {0, 2, 4, 5, 7, 9, 11, 12};
     const int kInvalid = 100;
-    int perfect_quals_list[] = {-5, -4, -3, -2, -1, kInvalid, 0, kInvalid, 1, 2, 3, 4, 5};
-    int imperfect_quals_list[] = {-6, -5, -4, -3, -2, -1, kInvalid, 0, 1, 2, 3, 4, 5};
+    const int perfect_quals_list[] = {-5, -4, -3, -2, -1, kInvalid, 0, kInvalid, 1, 2, 3, 4, 5};
+    const int imperfect_quals_list[] = {-6, -5, -4, -3, -2, -1, kInvalid, 0, 1, 2, 3, 4, 5};
 
     if (IsPerfectType()) {
         return sign_ * (semitone_list[span_] + perfect_quals_list[qual_] + (12 * xoct_));
@@ -120,6 +115,15 @@ int Interval::GetSemitones() {
 bool Interval::IsPerfectType() {
     int perfect_list[] = {0, 3, 4, 7};
     return std::count(perfect_list, perfect_list + (sizeof(perfect_list) / sizeof(perfect_list[0])), span_) == 1;
+}
+
+int Interval::FindQualIndex(const std::string& qual_string) {
+  for (int i = 0; i < 13; ++i) { // TODO: Replace magic number
+    if (kQualList[i] == qual_string) {
+      return i;
+    }
+  }
+  return -1;
 }
 
 }  // namespace scalefinder
