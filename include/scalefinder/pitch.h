@@ -16,12 +16,10 @@ const std::string octave_names[] = {"00", "0", "1", "2", "3", "4", "5", "6", "7"
 
 class Pitch {
  public:
-  // Default constructor
-  Pitch() = default;
   // Initialize from a string (i.e. Pitch("C#5))
   explicit Pitch(const std::string& pitch_str);
-  // Initialize from an array, [letter, accidental, octave] (see below)
-  explicit Pitch(const std::vector<int>& pitch_list);
+  // Initialize from three ints, [letter, accidental, octave] (see below)
+  explicit Pitch(int letter, int accidental, int octave);
 
   // Print operator
   friend std::ostream& operator<<(std::ostream& os, Pitch& pitch);

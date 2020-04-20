@@ -15,8 +15,7 @@ TEST_CASE("Pitch constructors") {
   REQUIRE(Pitch("Cbb7").to_string() == "Cbb7");
   REQUIRE(Pitch("A#2").to_string() == "A#2");
 
-  std::vector<int> vec = {1, 2, 4};
-  REQUIRE(Pitch(vec).to_string() == "D3");
+  REQUIRE(Pitch(1, 2, 4).to_string() == "D3");
 }
 
 TEST_CASE("Pitch equality operators") {

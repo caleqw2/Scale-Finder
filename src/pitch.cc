@@ -56,20 +56,18 @@ Pitch::Pitch(const std::string& pitch_str) {
   //std::cout << octave_ << std::endl;
 }
 
-Pitch::Pitch(const std::vector<int>& pitch_list) {
-  if (pitch_list.size() > 3) {
-    throw std::out_of_range("Vector constructor must use size 3");
-  } else if (pitch_list[0] > 6 || pitch_list[0] < 0) {
+Pitch::Pitch(int letter, int accidenal, int octave) {
+  if (letter > 6 || letter < 0) {
     throw std::out_of_range("Letter number out of range");
-  } else if (pitch_list[1] > 4 || pitch_list[1] < 0) {
+  } else if (accidenal > 4 || accidenal < 0) {
     throw std::out_of_range("Accidental number out of range");
-  } else if (pitch_list[2] > 10 || pitch_list[2] < 0) {
+  } else if (octave > 10 || octave < 0) {
     throw std::out_of_range("Octave number out of range");
   }
 
-  letter_ = pitch_list[0];
-  accidental_ = pitch_list[1];
-  octave_ = pitch_list[2];
+  letter_ = letter;
+  accidental_ = accidenal;
+  octave_ = octave;
 
   pos_ = get_pos();
 }
