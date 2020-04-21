@@ -87,3 +87,30 @@ if(NOT catch2_POPULATED)
 endif()
 
 # Add more CMake libraries here ...
+
+FetchContent_Declare(
+        libmusicxml
+        GIT_REPOSITORY https://github.com/grame-cncm/libmusicxml.git
+)
+
+FetchContent_GetProperties(libmusicxml)
+if(NOT libmusicxml_POPULATED)
+    FetchContent_Populate(libmusicxml)
+    add_subdirectory(${libmusicxml_SOURCE_DIR}/build ${libmusicxml_BINARY_DIR}/build)
+endif()
+
+
+FetchContent_Declare(
+        gflags
+        GIT_REPOSITORY https://github.com/gflags/gflags.git
+        GIT_TAG v2.2.2
+)
+
+# Adds gflags::gflags
+FetchContent_GetProperties(gflags)
+if (NOT gflags_POPULATED)
+    FetchContent_Populate(gflags)
+    add_subdirectory(${gflags_SOURCE_DIR} ${gflags_BINARY_DIR})
+endif ()
+
+

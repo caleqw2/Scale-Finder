@@ -44,4 +44,5 @@ TEST_CASE("Intervals") {
 TEST_CASE("The Big Test!") {
   Scale scale = Scale(Pitch("B4"), ScaleType::kMajor);
   std::cout << scale.ToString() << std::endl;
+
 }
