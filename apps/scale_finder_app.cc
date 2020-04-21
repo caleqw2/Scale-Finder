@@ -4,6 +4,7 @@
 
 #include <cinder/app/App.h>
 #include <gflags/gflags.h>
+#include <cinder/gl/wrapper.h>
 #include "CinderImGui.h"
 
 namespace myapp {
@@ -19,7 +20,8 @@ void MyApp::setup() {
 void MyApp::update() { }
 
 void MyApp::draw() {
-
+    cinder::gl::clear();
+    ImGui::Text("Hello, world!");
 }
 
 void MyApp::keyDown(KeyEvent event) { }

@@ -133,10 +133,15 @@ int Pitch::PitchClass() {
 }
 
 Pitch Pitch::FromKeynum(int keynum, std::string acci) {
-
   if (keynum > 127 || keynum < 0) {
     throw std::runtime_error("Invalid midi number");
   }
+
+  /*
+   * Creates a pitch from a keynum by making a pitch string and using the
+   * string constructor.
+   */
+
   const std::string octave_names[] = {"00", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
   int octave_number = keynum / 12;
   int pc = keynum % 12;
@@ -185,7 +190,9 @@ Pitch Pitch::FromKeynum(int keynum, std::string acci) {
 
   return Pitch(pitch_name);
 }
+
 int Pitch::GetAccidental() { return accidental_; }
+
 int Pitch::GetLetter() { return letter_; }
 
 std::string Pitch::GetNote() {

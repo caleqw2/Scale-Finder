@@ -24,7 +24,7 @@ class Interval {
   std::string ToString();
 
   // Transposes a pitch by the current interval.
-  Pitch Transpose(Pitch& bottom);
+  Pitch Transpose(Pitch bottom);
 
  private:
   int span_ = -1;

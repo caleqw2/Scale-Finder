@@ -49,7 +49,7 @@ std::ostream& operator<<(std::ostream& os, Interval& interval) {
   return os;
 }
 
-Pitch Interval::Transpose(Pitch& other) {
+Pitch Interval::Transpose(Pitch other) {
   /* Determines the new pitch's MIDI key number by adding the interval's
    * semitones to the old key number.
    */
@@ -57,14 +57,15 @@ Pitch Interval::Transpose(Pitch& other) {
 
   int new_acci = 0;
 
+  /*
+   * The new accidental is determined by adding the old accidental int
+   * to a modifier determined by the interval's qual_, then raising/lowering
+   * it by 1 for certain pitches.
+   */
+
   const int kInvalid = 100;
   const int perfect_modifiers[] = {-5, -4, -3, -2, -1, kInvalid, 0, kInvalid, 1, 2, 3, 4, 5};
   const int imperfect_modifiers[] = {-6, -5, -4, -3, -2, -1, kInvalid, 0, 1, 2, 3, 4, 5};
-  const int const1[] = {2, 6};
-  const int const2[] = {1, 2, 5, 6};
-  const int const3[] = {1, 2, 4, 5, 6};
-  const int const4[] = {2, 5, 6};
-  const int const5[] = {0, 1, 2, 3, 4};
 
   if (IsPerfectType()) {
       new_acci = other.GetAccidental() + sign_ * perfect_modifiers[qual_];
@@ -79,24 +80,36 @@ Pitch Interval::Transpose(Pitch& other) {
   } else {
       new_acci = other.GetAccidental() + sign_ * imperfect_modifiers[qual_];
 
-      // Whole lot of edge cases.
-      if (span_ == 1 && std::count(const1, const1 + (sizeof(const1) / sizeof(const1[0])), other.GetLetter()) > 0) {
+      const int eb[] = {2, 6};
+      const int deab[] = {1, 2, 5, 6};
+      const int degab[] = {1, 2, 4, 5, 6};
+      const int eab[] = {2, 5, 6};
+
+      // Raises the accidentals of certain letters for each imperfect interval
+
+      // If transposing an E, B by a second, raise the accidental
+      if (span_ == 1 && std::count(eb, eb + (sizeof(eb) / sizeof(eb[0])), other.GetLetter()) > 0) {
           new_acci += 1;
-      } else if (span_ == 2 && std::count(const2, const2 + (sizeof(const2) / sizeof(const2[0])), other.GetLetter()) > 0) {
+          // If transposing a D, E, A, B by a third, raise the accidental
+      } else if (span_ == 2 && std::count(deab, deab + (sizeof(deab) / sizeof(deab[0])), other.GetLetter()) > 0) {
           new_acci += 1;
-      } else if (span_ == 6 && std::count(const3, const3 + (sizeof(const3) / sizeof(const3[0])), other.GetLetter()) > 0) {
-          new_acci -= 1;
-      } else if (span_ == 5 && std::count(const4, const4 + (sizeof(const4) / sizeof(const4[0])), other.GetLetter()) > 0) {
-          new_acci -= 1;
+          // If transposing a D, E, G, A, B by a seventh, raise accidental
+      } else if (span_ == 6 && std::count(degab, degab + (sizeof(degab) / sizeof(degab[0])), other.GetLetter()) > 0) {
+          new_acci += 1;
+          // If transposing an E, A, B by a sixth, raise accidental
+      } else if (span_ == 5 && std::count(eab, eab + (sizeof(eab) / sizeof(eab[0])), other.GetLetter()) > 0) {
+          new_acci += 1;
       }
   }
 
-  if (std::count(const5, const5 + (sizeof(const5) / sizeof(const5[0])), new_acci) == 0) {
+  const int valid_accis[] = {0, 1, 2, 3, 4};
+
+  if (std::count(valid_accis, valid_accis + (sizeof(valid_accis) / sizeof(valid_accis[0])), new_acci) == 0) {
       throw std::runtime_error("Transposition invalid because a pitch couldn't be created with that accidental.");
   }
 
-  std::string possible_accis[] = {"bb", "b", "None", "#", "##"};
-  return Pitch::FromKeynum(new_keynum, possible_accis[new_acci]);
+  std::string valid_acci_strings[] = {"bb", "b", "None", "#", "##"};
+  return Pitch::FromKeynum(new_keynum, valid_acci_strings[new_acci]);
 }
 
 int Interval::GetSemitones() {

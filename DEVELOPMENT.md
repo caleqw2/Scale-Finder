@@ -7,3 +7,6 @@ python code as a reference.
 
 4/20 - Finished writing stripped-down versions of Interval and Pitch and wrote a class to represent Scales.
 My program can now create scales given a starting note and scale type, although some notes are enharmonically wrong.
+
+4/21 - Fixed the issue with enharmonic equivalents and cleaned up some code with comments.
+I also decided to ditch libmusicxml and linked two graphics libraries, PretzelGui and ImGui.
