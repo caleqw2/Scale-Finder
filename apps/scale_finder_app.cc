@@ -4,6 +4,7 @@
 
 #include <cinder/app/App.h>
 #include <gflags/gflags.h>
+#include "CinderImGui.h"
 
 namespace myapp {
 
@@ -12,7 +13,7 @@ using cinder::app::KeyEvent;
 MyApp::MyApp() { }
 
 void MyApp::setup() {
-
+  ImGui::initialize();
 }
 
 void MyApp::update() { }
