@@ -17,12 +17,20 @@ class Engine {
   // Takes each single chord string and generates a ChordSymbol from it using GetChordFromString()
   // The ChordSymbol will populate it's scales list upon construction.
   Engine(std::string raw_input);
-  ChordSymbol GetChordFromString(std::string chord_str);
 
   // Prints all the chords with all their scales for testing purposes.
   std::string PrintAllChordsAndScales();
  private:
+  // All chords the user entered.
   std::vector<ChordSymbol> chords_;
+
+  // Parses the string input for:
+  // 1. The root note of the chord. (e.g. C in Cmaj7(#11) )
+  // 2. The quality of the chord (e.g. kMajor in Cmaj7(#11) )
+  // 3. Whether the chord is a seventh (true for ^^)
+  // 4. Any extensions/alterations specified (like a #11 for ^^)
+  // Returns a chord symbol created with these options.
+  ChordSymbol GetChordFromString(std::string chord_str);
 };
 
 } // namespace scalefinder
