@@ -10,3 +10,6 @@ My program can now create scales given a starting note and scale type, although 
 
 4/21 - Fixed the issue with enharmonic equivalents and cleaned up some code with comments.
 I also decided to ditch libmusicxml and linked two graphics libraries, PretzelGui and ImGui.
+
+4/22 - Wrote class skeletons for ChordSymbol and Engine, which will be able to take raw string input and populate
+chord symbols with Scales.
