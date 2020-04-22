@@ -3,11 +3,13 @@
 #define CATCH_CONFIG_MAIN
 
 #include <cinder/Rand.h>
-#include <scalefinder/pitch.h>
 #include <scalefinder/interval.h>
+#include <scalefinder/pitch.h>
 #include <scalefinder/scale.h>
-#include <scalefinder/scaletype.h>
+
 #include <catch2/catch.hpp>
+
+#include "../src/scaletype.h"
 
 using scalefinder::Pitch;
 using scalefinder::Interval;

@@ -7,9 +7,9 @@
 
 #include <map>
 
-#include "pitch.h"
-#include "scaletype.h"
+#include "../../src/scaletype.h"
 #include "interval.h"
+#include "pitch.h"
 
 namespace scalefinder {
 

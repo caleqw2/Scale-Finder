@@ -99,7 +99,6 @@ if(NOT libmusicxml_POPULATED)
     add_subdirectory(${libmusicxml_SOURCE_DIR}/build ${libmusicxml_BINARY_DIR}/build)
 endif()
 
-
 FetchContent_Declare(
         gflags
         GIT_REPOSITORY https://github.com/gflags/gflags.git
