@@ -3,18 +3,23 @@
 #define CATCH_CONFIG_MAIN
 
 #include <cinder/Rand.h>
+#include <scalefinder/chord_symbol.h>
+#include <scalefinder/engine.h>
 #include <scalefinder/interval.h>
 #include <scalefinder/pitch.h>
 #include <scalefinder/scale.h>
 
 #include <catch2/catch.hpp>
 
-#include "../src/scaletype.h"
+#include "scalefinder/scaletype.h"
 
 using scalefinder::Pitch;
 using scalefinder::Interval;
 using scalefinder::Scale;
 using scalefinder::ScaleType;
+using scalefinder::Engine;
+using scalefinder::ChordSymbol;
+
 
 /*
 
@@ -44,6 +49,12 @@ TEST_CASE("Intervals") {
  */
 
 TEST_CASE("The Big Test!") {
-  Scale scale = Scale(Pitch("Ab4"), ScaleType::kMajor);
+  Scale scale = Scale(Pitch("Ab4"), ScaleType::kAeolian);
   std::cout << scale.ToString() << std::endl;
+}
+
+TEST_CASE("Getting chord from a string") {
+  ChordSymbol chord = Engine::GetChordFromString("C#m7");
+  Engine engine = Engine("Cm7 B F7b9 BbM7 F07");
+  std::cout << engine << std::endl;
 }

@@ -14,16 +14,20 @@ namespace scalefinder {
 class ChordSymbol {
  public:
   ChordSymbol(Pitch root1, ChordQual qual, bool is_seventh,
-              std::vector<std::string> extensions);
+              std::string extensions, std::string name);
   // Fills possible_scales by determining what ScaleTypes work for that scale.
   // Also handles chord extensions.
-  static void PopulateScales();
+  void PopulateScales();
+  std::string GetName();
+  std::vector<Scale> GetScales();
  private:
   Pitch root_;
   scalefinder::ChordQual qual_;
   bool is_seventh_;
-  std::vector<std::string> extensions_;
-  std::vector<scalefinder::Scale> possible_scales;
+  std::string extensions_;
+  std::string name_;
+  std::vector<scalefinder::Scale> possible_scales_;
+  void AddScale(ScaleType qual);
 };
 
 } // namespace scalefinder

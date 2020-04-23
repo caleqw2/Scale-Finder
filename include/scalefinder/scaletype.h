@@ -8,7 +8,19 @@
 namespace scalefinder {
 
 enum class ScaleType {
-  kMajor, kMinor
+  kIonian,
+  kDorian,
+  kLydianMajor,
+  kAeolian,
+  kLydianDominant,
+  kAltered,
+  kLocrian,
+  kSuperLocrian,
+  kHalfWholeDim,
+  kWholeHalfDim,
+  kWholeTone,
+  kMelodicMinor,
+  kMixolydian
 };
 
 } // namespace scalefinder

@@ -8,7 +8,7 @@
 namespace scalefinder {
 
 enum class ChordQual {
-  kMajor, kMinor, kAugmented, kDiminished, kHalfDiminished, kSus
+  kMajor, kMinor, kAugmented, kDiminished, kHalfDiminished, kDominant
 };
 
 } // namespace scalefinder
