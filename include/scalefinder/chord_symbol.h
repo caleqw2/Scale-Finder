@@ -13,6 +13,8 @@ namespace scalefinder {
 
 class ChordSymbol {
  public:
+  ChordSymbol();
+
   ChordSymbol(Pitch root1, ChordQual qual, bool is_seventh,
               std::string extensions, std::string name);
   // Fills possible_scales by determining what ScaleTypes work for that scale.

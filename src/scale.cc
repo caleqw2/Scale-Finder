@@ -49,4 +49,8 @@ std::ostream& operator<<(std::ostream& os, Scale& scale) {
   return os;
 }
 
+const std::vector<Pitch>& Scale::GetNotes() const { return notes_; }
+
+Scale::Scale() = default;
+
 }  // namespace scalefinder

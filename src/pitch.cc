@@ -199,4 +199,6 @@ std::string Pitch::GetNote() {
   return kLetterNames[letter_] + kAccidentalNames[accidental_];
 }
 
+Pitch::Pitch() {}
+
 }  // namespace scalefinder

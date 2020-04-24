@@ -17,7 +17,7 @@ ci_make_app(
     CINDER_PATH ${CINDER_PATH}
     SOURCES     ${SOURCE_LIST}
     LIBRARIES   scalefinder gflags
-    BLOCKS      PretzelGui Cinder-ImGui
+    BLOCKS      Cinder-ImGui
     RESOURCES   ${RESOURCE_LIST}
 )
 

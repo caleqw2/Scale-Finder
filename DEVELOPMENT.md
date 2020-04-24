@@ -15,3 +15,5 @@ I also decided to ditch libmusicxml and linked two graphics libraries, PretzelGu
 chord symbols with Scales.
 
 4/23 - Finished writing the backend. My program can now generate scales from a series of chord changes.
+
+4/24 - Drew a piano and am able to highlight notes on it. Will begin work on UI after I clean up my code.

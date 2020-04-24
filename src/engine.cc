@@ -9,6 +9,8 @@
 
 namespace scalefinder {
 
+Engine::Engine() = default;
+
 Engine::Engine(const std::string& raw_input) {
 
   // Splits the input stream by spaces into a vector.
@@ -58,6 +60,10 @@ std::ostream& operator<<(std::ostream& os, Engine& engine) {
     os << std::endl;
   }
   return os;
+}
+
+std::vector<ChordSymbol> Engine::GetChords() {
+  return chords_;
 }
 
 } // namespace scalefinder

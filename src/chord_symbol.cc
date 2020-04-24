@@ -60,4 +60,6 @@ void ChordSymbol::AddScale(ScaleType qual) {
   possible_scales_.emplace_back(root_, qual);
 }
 
+ChordSymbol::ChordSymbol() = default;
+
 } // namespace scalefinder

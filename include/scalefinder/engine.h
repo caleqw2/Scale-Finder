@@ -12,6 +12,8 @@ namespace scalefinder {
 
 class Engine {
  public:
+  Engine();
+
   // Takes in an un-formatted string of chords separated by spaces e.g. [Cmaj7 F6 Bbm9(#11)]
   // Splits it into a vector of strings.
   // Takes each single chord string and generates a ChordSymbol from it using GetChordFromString()
@@ -28,6 +30,9 @@ class Engine {
 
   // Prints all the chords with all their scales for testing purposes.
   friend std::ostream& operator<<(std::ostream& os, Engine& engine);
+
+ public:
+  std::vector<ChordSymbol> GetChords();
 
  private:
   // All chords the user entered.
