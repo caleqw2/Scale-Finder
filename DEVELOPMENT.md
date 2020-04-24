@@ -13,3 +13,5 @@ I also decided to ditch libmusicxml and linked two graphics libraries, PretzelGu
 
 4/22 - Wrote class skeletons for ChordSymbol and Engine, which will be able to take raw string input and populate
 chord symbols with Scales.
+
+4/23 - Finished writing the backend. My program can now generate scales from a series of chord changes.
