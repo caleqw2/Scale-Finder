@@ -19,7 +19,7 @@ Interval::Interval(const std::string& str) {
   for (size_t i = 0; i < string.length(); ++i) {
     if (Pitch::IsNumeric(string.substr(i))) {
       if (FindQualIndex(string.substr(0, i)) == -1) {
-        throw std::runtime_error("Invalid interval string!");
+        throw std::runtime_error(kInvalidIntervalStr);
       }
 
       qual_ = FindQualIndex(string.substr(0, i));
@@ -36,12 +36,16 @@ Interval::Interval(const std::string& str) {
     }
   }
 
-  // TODO: Important, I'm neglecting edge cases here.
+  // Important, I'm neglecting edge cases here.
+  // For this app, I have control over where intervals are created so only
+  // valid intervals are made (like m3, M3). To use this in the future,
+  // I'll want to implement safeguards for invalid intervals.
 }
 
 std::string Interval::ToString() {
-  std::string signs[] = {"-", "", ""};
-  return signs[sign_ + 1] + kQualList[qual_] + std::to_string(span_ + 1 + (xoct_ * 7));
+  std::string kSigns[] = {"-", "", ""};
+  return kSigns[sign_ + 1] + kQualList[qual_] 
+  + std::to_string(span_ + 1 + (xoct_ * 7));
 }
 
 std::ostream& operator<<(std::ostream& os, Interval& interval) {
@@ -54,7 +58,6 @@ Pitch Interval::Transpose(Pitch other) {
    * semitones to the old key number.
    */
   int new_keynum = other.Keynum() + GetSemitones();
-
   int new_acci = 0;
 
   /*
@@ -62,13 +65,9 @@ Pitch Interval::Transpose(Pitch other) {
    * to a modifier determined by the interval's qual_, then raising/lowering
    * it by 1 for certain pitches.
    */
-
-  const int kInvalid = 100;
-  const int perfect_modifiers[] = {-5, -4, -3, -2, -1, kInvalid, 0, kInvalid, 1, 2, 3, 4, 5};
-  const int imperfect_modifiers[] = {-6, -5, -4, -3, -2, -1, kInvalid, 0, 1, 2, 3, 4, 5};
-
+  
   if (IsPerfectType()) {
-      new_acci = other.GetAccidental() + sign_ * perfect_modifiers[qual_];
+      new_acci = other.GetAccidental() + sign_ * kPerfectModifiers[qual_];
 
       // Edge cases.
       if (span_ == 4 && other.GetLetter() == 6) {
@@ -78,60 +77,59 @@ Pitch Interval::Transpose(Pitch other) {
       }
 
   } else {
-      new_acci = other.GetAccidental() + sign_ * imperfect_modifiers[qual_];
-
-      const int eb[] = {2, 6};
-      const int deab[] = {1, 2, 5, 6};
-      const int degab[] = {1, 2, 4, 5, 6};
-      const int eab[] = {2, 5, 6};
-
+      new_acci = other.GetAccidental() + sign_ * kImperfectModifiers[qual_];
+      
       // Raises the accidentals of certain letters for each imperfect interval
 
       // If transposing an E, B by a second, raise the accidental
-      if (span_ == 1 && std::count(eb, eb + (sizeof(eb) / sizeof(eb[0])), other.GetLetter()) > 0) {
+      if (span_ == 1 && std::count(kEB, kEB
+      + (sizeof(kEB) / sizeof(kEB[0])), other.GetLetter()) > 0) {
           new_acci += 1;
+          
           // If transposing a D, E, A, B by a third, raise the accidental
-      } else if (span_ == 2 && std::count(deab, deab + (sizeof(deab) / sizeof(deab[0])), other.GetLetter()) > 0) {
+      } else if (span_ == 2 && std::count(kDEAB, kDEAB
+      + (sizeof(kDEAB) / sizeof(kDEAB[0])), other.GetLetter()) > 0) {
           new_acci += 1;
+          
           // If transposing a D, E, G, A, B by a seventh, raise accidental
-      } else if (span_ == 6 && std::count(degab, degab + (sizeof(degab) / sizeof(degab[0])), other.GetLetter()) > 0) {
+      } else if (span_ == 6 && std::count(kDEGAB, kDEGAB
+      + (sizeof(kDEGAB) / sizeof(kDEGAB[0])), other.GetLetter()) > 0) {
           new_acci += 1;
+          
           // If transposing an E, A, B by a sixth, raise accidental
-      } else if (span_ == 5 && std::count(eab, eab + (sizeof(eab) / sizeof(eab[0])), other.GetLetter()) > 0) {
+      } else if (span_ == 5 && std::count(kEAB, kEAB
+      + (sizeof(kEAB) / sizeof(kEAB[0])), other.GetLetter()) > 0) {
           new_acci += 1;
       }
   }
 
-  const int valid_accis[] = {0, 1, 2, 3, 4};
+  const int kValidAccis[] = {0, 1, 2, 3, 4};
 
-  if (std::count(valid_accis, valid_accis + (sizeof(valid_accis) / sizeof(valid_accis[0])), new_acci) == 0) {
-      throw std::runtime_error("Transposition invalid because a pitch couldn't be created with that accidental.");
+  if (std::count(kValidAccis, kValidAccis + 
+  (sizeof(kValidAccis) / sizeof(kValidAccis[0])), new_acci) == 0) {
+      throw std::runtime_error(kTranspositionFailed);
   }
-
-  std::string valid_acci_strings[] = {"bb", "b", "None", "#", "##"};
+  
   return Pitch::FromKeynum(new_keynum, valid_acci_strings[new_acci]);
 }
 
 int Interval::GetSemitones() {
-    const int semitone_list[] = {0, 2, 4, 5, 7, 9, 11, 12};
-    const int kInvalid = 100;
-    const int perfect_quals_list[] = {-5, -4, -3, -2, -1, kInvalid, 0, kInvalid, 1, 2, 3, 4, 5};
-    const int imperfect_quals_list[] = {-6, -5, -4, -3, -2, -1, kInvalid, 0, 1, 2, 3, 4, 5};
-
     if (IsPerfectType()) {
-        return sign_ * (semitone_list[span_] + perfect_quals_list[qual_] + (12 * xoct_));
+        return sign_ * (kSemitoneList[span_] + kPerfectQualsList[qual_]
+        + (kNotesInOctave * xoct_));
     } else {
-        return sign_ * (semitone_list[span_] + imperfect_quals_list[qual_] + (12 * xoct_));
+        return sign_ * (kSemitoneList[span_] + kImperfectQualsList[qual_]
+        + (kNotesInOctave * xoct_));
     }
 }
 
 bool Interval::IsPerfectType() {
-    int perfect_list[] = {0, 3, 4, 7};
-    return std::count(perfect_list, perfect_list + (sizeof(perfect_list) / sizeof(perfect_list[0])), span_) == 1;
+    return std::count(kPerfectSpans, kPerfectSpans
+    + (sizeof(kPerfectSpans) / sizeof(kPerfectSpans[0])), span_) == 1;
 }
 
 int Interval::FindQualIndex(const std::string& qual_string) {
-  for (int i = 0; i < 13; ++i) { // TODO: Replace magic number
+  for (int i = 0; i < kNumQuals; ++i) {
     if (kQualList[i] == qual_string) {
       return i;
     }
