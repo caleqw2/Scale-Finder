@@ -30,11 +30,16 @@ const static std::string kInvalidPitchString = "Invalid pitch string.";
 const std::string kKeynumOutOfRange = "Midi keynum out of bounds";
 const std::string kInvalidKeynum = "Invalid midi number";
 
+/**
+ * A musical pitch.
+ */
 class Pitch {
  public:
   // Default
   Pitch();
-  // Initialize from a string (i.e. Pitch("C#5))
+  /**
+   * Initialize from a string (i.e. Pitch("C#5))
+   */
   explicit Pitch(const std::string& pitch_str);
 
   friend std::ostream& operator<<(std::ostream& os, Pitch& pitch);
@@ -47,22 +52,29 @@ class Pitch {
   int GetAccidental();
   int GetLetter();
 
-  // Returns the int MIDI key number of that pitch
+  /**
+   * Returns the int MIDI key number of that pitch
+   * @return The keynum
+   */
   int Keynum();
 
-  // Creates and returns a pitch from a keynum.
+  /**
+   * Creates a pitch from a keynum.
+   * @param keynum The integer keynum of the new pitch.
+   * @param acci A preferred accidental (like C# vs Db)
+   * @return The new Pitch.
+   */
   static Pitch FromKeynum(int keynum, const std::string& acci);
 
-  // Helper function to check if a string is numeric.
   static bool IsNumeric(const std::string& value);
 
  private:
-  int letter_ = -1; // 0-6, for letters ['C', 'D', 'E', 'F', 'G', 'A', 'B']
-  int accidental_ = -1; // 0-4 for accidentals ['bb', 'b', '', '#', '##']
-  int octave_ = -1; // 0-10, ['00', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-  int pos_ = -1; // A unique integer to help in comparing pitches.
+  int letter_ = -1; /** 0-6, for letters ['C', 'D', 'E', 'F', 'G', 'A', 'B'] */
+  int accidental_ = -1; /** 0-4 for accidentals ['bb', 'b', '', '#', '##'] */
+  int octave_ = -1; /** 0-10, ['00', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] */
+  int pos_ = -1; /** A unique integer to help in comparing pitches. */
 
-  // Helper function in constructor to determine octave_.
+  /** Helper function in constructor to determine octave_. */
   static int FindOctaveIndex(const std::string& copy, int pos);
 };
 

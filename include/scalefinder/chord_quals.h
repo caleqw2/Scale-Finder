@@ -7,6 +7,9 @@
 
 namespace scalefinder {
 
+/**
+ * Represents all the supported types of chords to be input.
+ */
 enum class ChordQual {
   kMajor, kMinor, kAugmented, kDiminished, kHalfDiminished, kDominant
 };

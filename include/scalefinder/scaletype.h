@@ -7,6 +7,9 @@
 
 namespace scalefinder {
 
+/**
+ * All of the supported types of scales for this program.
+ */
 enum class ScaleType {
   kIonian,
   kDorian,

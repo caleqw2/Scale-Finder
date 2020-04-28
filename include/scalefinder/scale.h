@@ -45,9 +45,17 @@ const std::map<ScaleType, std::string> scale_names = {
     {ScaleType::kMixolydian, "Mixolydian"}
 };
 
+/**
+ * Represents a scale, which is a collection of pitches.
+ */
 class Scale {
  public:
   Scale();
+  /**
+   * Constructs a scale.
+   * @param tonic The root note of the scale. (like C in a Cmaj scale.)
+   * @param type The quality of the scale, like Major in a Cmaj scale.
+   */
   Scale(Pitch tonic, ScaleType type);
   std::string ToString();
   friend std::ostream& operator<<(std::ostream& os, Scale& scale);
@@ -58,6 +66,13 @@ class Scale {
 
   // All the Pitches in the scale.
   static std::string GetScaleName(Pitch& tonic, const std::string& type_name);
+
+  /**
+   * Populates the scale with pitches.
+   * @param tonic The root note of the scale
+   * @param intervals All the intervals of the rest of the scale degrees
+   * @return A vector of pitches to go in notes_.
+   */
   static std::vector<Pitch> DetermineNotes(
       Pitch& tonic, const std::vector<std::string>& intervals);
 

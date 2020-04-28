@@ -31,24 +31,36 @@ const int kPerfectSpans[] = {0, 3, 4, 7};
 const int kNotesInOctave = 12;
 const int kNumQuals = 13;
 
+/**
+ * Represents a musical interval between two Pitches.
+ */
 class Interval {
  public:
-  // Constructs an interval from a string (i.e. Interval("++5") )
+
+  /**
+   * Constructs an interval from a string (i.e. Interval("++5") )
+   */
   explicit Interval(const std::string& str);
 
-  // Print operator
   friend std::ostream& operator<<(std::ostream& os, Interval& interval);
 
-  // Converts to a string representation
   std::string ToString();
 
-  // Transposes a pitch by the current interval.
+  /**
+   * Transposes a pitch by the current interval.
+   * @param bottom The pitch to transpose.
+   * @return The transposed pitch.
+   */
   Pitch Transpose(Pitch bottom);
 
  private:
+  /** How many lines and spaces the interval takes on a staff */
   int span_ = -1;
+  /** The quality of the interval, as in index in kQualList */
   int qual_ = -1;
+  /** How many extra octaves the interval contains if complex */
   int xoct_ = -1;
+  /** Whether it is ascending or descending */
   int sign_ = 1;
 
   static int FindQualIndex(const std::string& qual_string);
