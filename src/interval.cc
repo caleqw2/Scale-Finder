@@ -109,8 +109,8 @@ Pitch Interval::Transpose(Pitch other) {
   (sizeof(kValidAccis) / sizeof(kValidAccis[0])), new_acci) == 0) {
       throw std::runtime_error(kTranspositionFailed);
   }
-  
-  return Pitch::FromKeynum(new_keynum, valid_acci_strings[new_acci]);
+
+  return Pitch::FromKeynum(new_keynum, kValidAccisStrs[new_acci]);
 }
 
 int Interval::GetSemitones() {
@@ -124,8 +124,8 @@ int Interval::GetSemitones() {
 }
 
 bool Interval::IsPerfectType() {
-    return std::count(kPerfectSpans, kPerfectSpans
-    + (sizeof(kPerfectSpans) / sizeof(kPerfectSpans[0])), span_) == 1;
+    return std::count(kPerfectSpans, kPerfectSpans +
+    (sizeof(kPerfectSpans) / sizeof(kPerfectSpans[0])), span_) == 1;
 }
 
 int Interval::FindQualIndex(const std::string& qual_string) {

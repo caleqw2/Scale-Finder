@@ -62,31 +62,59 @@ TEST_CASE("Pitch Keynum Functions") {
 }
 
 // Interval tests
-// Test interval constructor
-// Test interval Transpose method
-// Test GetSemitones
-
-// Scale tests
-// Test scale construction/printing
-
-// Engine test
-// Test creating an Engine from a bunch of chords.
-
 
 TEST_CASE("Intervals") {
-  Interval interval = Interval("m5");
-  //std::cout << interval << std::endl;
+  Interval interval_1 = Interval("m5");
+  REQUIRE(interval_1.ToString() == "m5");
+  Interval interval_2 = Interval("M6");
+  REQUIRE(interval_2.ToString() == "M6");
+  Interval interval_3 = Interval("oo2");
+  REQUIRE(interval_3.ToString() == "oo2");
 }
 
-//
+TEST_CASE("Interval transposition") {
+  Pitch p = Interval("P5").Transpose(Pitch("C#5"));
+  REQUIRE(p == Pitch("G#5"));
+  Pitch p2 = Interval("m3").Transpose(Pitch("C3"));
+  REQUIRE(p2 == Pitch("Eb3"));
+}
 
-TEST_CASE("The Big Test!") {
+// Scale/Engine Tests
+
+TEST_CASE("Scale constructor") {
   Scale scale = Scale(Pitch("Ab4"), ScaleType::kAeolian);
-  //std::cout << scale.ToString() << std::endl;
+  REQUIRE(scale.ToString() == "Ab Minor: [Ab, Bb, Cb, Db, Eb, Fb, Gb, Ab]");
 }
 
 TEST_CASE("Getting chord from a string") {
   ChordSymbol chord = Engine::GetChordFromString("C#m7");
   Engine engine = Engine("Cm7 B F7b9 BbM7 F07");
-  //std::cout << engine << std::endl;
+  std::string expected_out = "Chord: Cm7\n"
+      "Scales:\n"
+      "  C Dorian Minor: [C, D, Eb, F, G, A, Bb, C]\n"
+      "  C Melodic Minor: [C, D, Eb, F, G, A, B, C]\n"
+      "  C Minor: [C, D, Eb, F, G, Ab, Bb, C]\n"
+      "\n"
+      "Chord: B\n"
+      "Scales:\n"
+      "  B Mixolydian: [B, C#, D#, E, F#, G#, A, B]\n"
+      "\n"
+      "Chord: F7b9\n"
+      "Scales:\n"
+      "  F Mixolydian: [F, G, A, Bb, C, D, Eb, F]\n"
+      "\n"
+      "Chord: BbM7\n"
+      "Scales:\n"
+      "  Bb Major: [Bb, C, D, Eb, F, G, A, Bb]\n"
+      "\n"
+      "Chord: F07\n"
+      "Scales:\n"
+      "  F Locrian: [F, Gb, Ab, Bb, Cb, Db, Eb, F]\n"
+      "  F Super Locrian: [F, G, Ab, Bb, Cb, Db, Eb, F]\n\n";
+
+  std::stringstream ss;
+  ss << engine;
+  std::string output = ss.str();
+
+  REQUIRE(output == expected_out);
 }

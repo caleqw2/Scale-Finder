@@ -15,7 +15,9 @@ Engine::Engine(const std::string& raw_input) {
 
   // Splits the input stream by spaces into a vector.
   std::istringstream iss(raw_input);
-  std::vector<std::string> chord_strs((std::istream_iterator<std::string>(iss)), std::istream_iterator<std::string>());
+  std::vector<std::string> chord_strs(
+      (std::istream_iterator<std::string>(iss)),
+      std::istream_iterator<std::string>());
 
   // Creates a ChordSymbol for each string and adds it to chords_.
   for (const std::string& chord_str : chord_strs) {

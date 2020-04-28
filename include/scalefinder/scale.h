@@ -51,17 +51,16 @@ class Scale {
   Scale(Pitch tonic, ScaleType type);
   std::string ToString();
   friend std::ostream& operator<<(std::ostream& os, Scale& scale);
+  const std::vector<Pitch>& GetNotes() const;
  private:
   std::string name_; // e.g. (B Major or C# Dorian)
   std::vector<Pitch> notes_;
 
- public:
-  const std::vector<Pitch>& GetNotes() const;
- private:
   // All the Pitches in the scale.
   static std::string GetScaleName(Pitch& tonic, const std::string& type_name);
-  static std::vector<Pitch> DetermineNotes(Pitch& tonic,
-      const std::vector<std::string>& intervals);
+  static std::vector<Pitch> DetermineNotes(
+      Pitch& tonic, const std::vector<std::string>& intervals);
+
 };
 
 }  // namespace scalefinder

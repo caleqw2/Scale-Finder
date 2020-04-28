@@ -8,8 +8,12 @@
 
 namespace scalefinder {
 
-ChordSymbol::ChordSymbol(Pitch root, ChordQual qual, bool is_seventh, std::string extensions, std::string name)
-    : root_(root), qual_(qual), is_seventh_(is_seventh), extensions_(std::move(extensions)), name_(std::move(name)) {
+ChordSymbol::ChordSymbol() = default;
+
+ChordSymbol::ChordSymbol(Pitch root,
+    ChordQual qual, bool is_seventh, std::string extensions, std::string name)
+    : root_(root), qual_(qual), is_seventh_(is_seventh),
+    extensions_(std::move(extensions)), name_(std::move(name)) {
   PopulateScales();
 }
 
@@ -18,7 +22,7 @@ std::string ChordSymbol::GetName() { return name_; }
 std::vector<Scale> ChordSymbol::GetScales() { return possible_scales_; }
 
 void ChordSymbol::PopulateScales() {
-  // TODO: Add some more details for what scales go with what chords.
+  // If I wanted to go deeper, I could add more logic here.
   switch(qual_) {
     case ChordQual::kMajor:
       if (extensions_ == "#11") {
@@ -59,7 +63,5 @@ void ChordSymbol::PopulateScales() {
 void ChordSymbol::AddScale(ScaleType qual) {
   possible_scales_.emplace_back(root_, qual);
 }
-
-ChordSymbol::ChordSymbol() = default;
 
 } // namespace scalefinder

@@ -11,8 +11,11 @@
 namespace scalefinder {
 
 const std::string kQualList[] = {"ooooo", "oooo", "ooo", "oo", "o", "m", "P", "M", "+", "++", "+++", "++++", "+++++"};
+const std::string kValidAccisStrs[] = {"bb", "b", "None", "#", "##"};
+
 const std::string kInvalidIntervalStr = "Invalid interval string!";
 const std::string kTranspositionFailed = "Transposition invalid because a pitch couldn't be created with that accidental.";
+
 const int kInvalid = 100;
 const int kPerfectModifiers[] = {-5, -4, -3, -2, -1, kInvalid, 0, kInvalid, 1, 2, 3, 4, 5};
 const int kImperfectModifiers[] = {-6, -5, -4, -3, -2, -1, kInvalid, 0, 1, 2, 3, 4, 5};
@@ -20,12 +23,12 @@ const int kEB[] = {2, 6};
 const int kDEAB[] = {1, 2, 5, 6};
 const int kDEGAB[] = {1, 2, 4, 5, 6};
 const int kEAB[] = {2, 5, 6};
-const std::string valid_acci_strings[] = {"bb", "b", "None", "#", "##"};
 const int kSemitoneList[] = {0, 2, 4, 5, 7, 9, 11, 12};
-const int kNotesInOctave = 12;
 const int kPerfectQualsList[] = {-5, -4, -3, -2, -1, kInvalid, 0, kInvalid, 1, 2, 3, 4, 5};
 const int kImperfectQualsList[] = {-6, -5, -4, -3, -2, -1, kInvalid, 0, 1, 2, 3, 4, 5};
 const int kPerfectSpans[] = {0, 3, 4, 7};
+
+const int kNotesInOctave = 12;
 const int kNumQuals = 13;
 
 class Interval {

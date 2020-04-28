@@ -8,6 +8,8 @@
 
 namespace scalefinder {
 
+Scale::Scale() = default;
+
 Scale::Scale(Pitch tonic, ScaleType type) {
   assert(scale_intervals.count(type) != 0);
   name_ = GetScaleName(tonic, scale_names.at(type));
@@ -50,7 +52,5 @@ std::ostream& operator<<(std::ostream& os, Scale& scale) {
 }
 
 const std::vector<Pitch>& Scale::GetNotes() const { return notes_; }
-
-Scale::Scale() = default;
 
 }  // namespace scalefinder
