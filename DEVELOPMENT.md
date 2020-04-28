@@ -17,3 +17,6 @@ chord symbols with Scales.
 4/23 - Finished writing the backend. My program can now generate scales from a series of chord changes.
 
 4/24 - Drew a piano and am able to highlight notes on it. Will begin work on UI after I clean up my code.
+
+4/27 - Cleaned up all code according to the Google guidelines, wrote unit tests, and updated documentation. Next up is
+actually starting work on the UI for chord input.
