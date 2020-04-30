@@ -13,12 +13,14 @@ namespace myapp {
 
 const char kNormalFont[] = "Arial";
 
-using cinder::app::KeyEvent;
 using cinder::Rectf;
+using cinder::app::KeyEvent;
+using scalefinder::ChordQual;
+using scalefinder::ChordSymbol;
 using scalefinder::Engine;
 using scalefinder::Pitch;
-using scalefinder::ChordSymbol;
-using scalefinder::ChordQual;
+
+using std::chrono::duration_cast;
 
 MyApp::MyApp() {
   selected_chord_index_ = 0;
@@ -28,9 +30,21 @@ MyApp::MyApp() {
 
 void MyApp::setup() {
   ImGui::initialize();
-  is_seventh = false;
-  //  F7b9 BbM7#11
-  engine_ = Engine("DbM7");
+
+  engine_ = Engine("DbM7");  // Loads engine with a default chord.
+
+  // Sets up audio engine:
+  auto ctx = cinder::audio::master();
+
+  mGen = ctx->makeNode(new cinder::audio::GenTriangleNode);
+  mGain = ctx->makeNode(new cinder::audio::GainNode);
+
+  mGen->setFreq(220);
+  mGain->setValue(0.0f);
+
+  mGen >> mGain >> ctx->getOutput();
+  mGen->enable();
+  ctx->enable();
 }
 
 void MyApp::update() {
@@ -50,33 +64,26 @@ void MyApp::draw() {
   ImGui::Separator();
   DrawChordList();
   DrawScaleList();
-
-  // TODO: Draw a help box for understanding chord input
-
-  // TODO: Fix choosing "dom" quality so the chord shows up as a 7.
-
-  // TODO: Incorporate audio with playback button
-
-  // TODO: Adjust window size and final graphics touches
-
-  // Draws the piano.
+  DrawPlaybackButton();
   DrawScaleText();
   DrawPiano();
 }
 
-void MyApp::keyDown(KeyEvent event) { }
-
 void MyApp::DrawPiano() {
   // Draws white keys first so black keys can be on top.
   for (const scalefinder::PianoKey& key : kPianoKeys) {
-    bool is_highlighted = std::count(keynums_to_highlight.begin(), keynums_to_highlight.end(), key.GetKeynum()) > 0;
+    bool is_highlighted =
+        std::count(keynums_to_highlight.begin(), keynums_to_highlight.end(),
+                   key.GetKeynum()) > 0;
     if (key.IsWhite()) {
       DrawKey(key, is_highlighted);
     }
   }
 
   for (const scalefinder::PianoKey& key : kPianoKeys) {
-    bool is_highlighted = std::count(keynums_to_highlight.begin(), keynums_to_highlight.end(), key.GetKeynum()) > 0;
+    bool is_highlighted =
+        std::count(keynums_to_highlight.begin(), keynums_to_highlight.end(),
+                   key.GetKeynum()) > 0;
     if (!key.IsWhite()) {
       DrawKey(key, is_highlighted);
     }
@@ -87,10 +94,14 @@ void MyApp::DrawKey(const scalefinder::PianoKey& key, bool is_highlighted) {
   Rectf dimensions;
   cinder::Color key_color;
   if (key.IsWhite()) {
-    dimensions = Rectf(pianox + key.GetXloc(), pianoy,pianox + key.GetXloc() + kWhiteKeyWidth, pianoy + kWhiteKeyHeight);
+    dimensions = Rectf(pianox + key.GetXloc(), pianoy,
+                       pianox + key.GetXloc() + kWhiteKeyWidth,
+                       pianoy + kWhiteKeyHeight);
     key_color = cinder::Color(1, 1, 1);
   } else {
-    dimensions = Rectf(pianox + key.GetXloc(), pianoy, pianox + key.GetXloc() + kBlackKeyWidth, pianoy + kBlackKeyHeight);
+    dimensions = Rectf(pianox + key.GetXloc(), pianoy,
+                       pianox + key.GetXloc() + kBlackKeyWidth,
+                       pianoy + kBlackKeyHeight);
     key_color = cinder::Color(0, 0, 0);
   }
 
@@ -98,9 +109,9 @@ void MyApp::DrawKey(const scalefinder::PianoKey& key, bool is_highlighted) {
     key_color = cinder::Color(0, 0, 1);
   }
 
-  cinder::gl::color(key_color); // Draws the key
+  cinder::gl::color(key_color);  // Draws the key
   cinder::gl::drawSolidRect(dimensions);
-  cinder::gl::color(0, 0 ,0); // Draws a border
+  cinder::gl::color(0, 0, 0);  // Draws a border
   cinder::gl::drawStrokedRect(dimensions);
 }
 
@@ -110,7 +121,7 @@ void MyApp::DrawChordInput() {
   ImGui::InputText("Tonic", root_str, IM_ARRAYSIZE(root_str));
 
   // Gets the chord's quality from a dropdown menu
-  const char* quals[] = { "M", "m", "o", "+", "0", "dom" };
+  const char* quals[] = {"M", "m", "o", "+", "0", "dom"};
   static int item_current = 0;
   ImGui::Combo("Quality", &item_current, quals, IM_ARRAYSIZE(quals));
   std::string qual_str = quals[item_current];
@@ -119,15 +130,19 @@ void MyApp::DrawChordInput() {
   }
 
   // Gets whether the chord is a 7th from radio buttons
-  if (ImGui::RadioButton("7", is_seventh)) { is_seventh = true; }
-  if (ImGui::RadioButton("No 7", !is_seventh)) { is_seventh = false; }
+  if (ImGui::RadioButton("7", is_seventh)) {
+    is_seventh = true;
+  }
+  if (ImGui::RadioButton("No 7", !is_seventh)) {
+    is_seventh = false;
+  }
   std::string seventh_str;
   if (is_seventh) {
     seventh_str = "7";
   }
 
   // Gets any extensions from a dropdown menu
-  const char* exts[] = { "none", "b9", "#9b13", "alt", "#11" };
+  const char* exts[] = {"none", "b9", "#9b13", "alt", "#11"};
   static int item_current_1 = 0;
   ImGui::Combo("Extensions", &item_current_1, exts, IM_ARRAYSIZE(exts));
   std::string ext_str = exts[item_current_1];
@@ -139,8 +154,10 @@ void MyApp::DrawChordInput() {
   if (ImGui::Button("Create Chord")) {
     try {
       Pitch p = Pitch(std::string(root_str) + "4");
-      std::string chord_name = std::string(root_str) + qual_str + seventh_str + ext_str;
-      ChordSymbol new_chord = ChordSymbol(p, quals_map[quals[item_current]], is_seventh, ext_str, chord_name);
+      std::string chord_name =
+          std::string(root_str) + qual_str + seventh_str + ext_str;
+      ChordSymbol new_chord = ChordSymbol(p, kQualsMap[quals[item_current]],
+                                          is_seventh, ext_str, chord_name);
       engine_.AddChord(new_chord);
 
       selected_chord_index_ = engine_.GetChords().size() - 1;
@@ -170,10 +187,6 @@ void MyApp::DrawScaleList() {
 }
 
 void MyApp::DrawScaleText() {
-  /*
-   * I was getting a bug where the program ran out of memory and crashed
-   * when I initialized the Engine to three chords and tried to select F
-   */
   cinder::Color color = cinder::Color(1, 1, 1);
   const cinder::vec2 center = {getWindowCenter().x, 500};
   const cinder::ivec2 size = {800, 50};
@@ -185,18 +198,52 @@ void MyApp::PrintText(const std::string& text, const cinder::Color& color,
   cinder::gl::color(color);
 
   auto box = cinder::TextBox()
-      .alignment(cinder::TextBox::CENTER)
-      .font(cinder::Font(kNormalFont, 30))
-      .size(size)
-      .color(color)
-      .backgroundColor(cinder::ColorA(0, 0, 0, 0))
-      .text(text);
+                 .alignment(cinder::TextBox::CENTER)
+                 .font(cinder::Font(kNormalFont, 30))
+                 .size(size)
+                 .color(color)
+                 .backgroundColor(cinder::ColorA(0, 0, 0, 0))
+                 .text(text);
 
   const auto box_size = box.getSize();
   const cinder::vec2 locp = {loc.x - box_size.x / 2, loc.y - box_size.y / 2};
   const auto surface = box.render();
   const auto texture = cinder::gl::Texture::create(surface);
   cinder::gl::draw(texture, locp);
+}
+
+void MyApp::DrawPlaybackButton() {
+  // Populates a vector with the frequencies of all pitches in current_scale_.
+  std::vector<double> freqs;
+  for (Pitch p : current_scale_.GetNotes()) {
+    freqs.push_back(p.Hertz());
+  }
+
+  if (ImGui::Button("Play audio")) {
+    // Turns the volume on
+    mGain->setValue(.2f);
+
+    // Loops through all the frequencies
+    int current_freq_index = 0;
+    while (current_freq_index < freqs.size() + 1) {
+      // Gets current time and time elapsed
+      const auto time = std::chrono::system_clock::now();
+
+      using std::chrono::milliseconds;
+      const double time_elapsed =
+          duration_cast<milliseconds>(time - last_audio_play_time).count();
+
+      // Changes pitch every half a second.
+      if (time_elapsed >= 500) {
+        mGen->setFreq(freqs[current_freq_index]);
+        last_audio_play_time = time;
+        current_freq_index++;
+      }
+    }
+
+    // Volume back off
+    mGain->setValue(0.0f);
+  }
 }
 
 }  // namespace myapp

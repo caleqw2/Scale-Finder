@@ -68,6 +68,12 @@ class Pitch {
 
   static bool IsNumeric(const std::string& value);
 
+  /**
+   * Gets the hertz frequency of that pitch.
+   * @return The frequency in hertz as a double.
+   */
+  double Hertz();
+
  private:
   int letter_ = -1; /** 0-6, for letters ['C', 'D', 'E', 'F', 'G', 'A', 'B'] */
   int accidental_ = -1; /** 0-4 for accidentals ['bb', 'b', '', '#', '##'] */

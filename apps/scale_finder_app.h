@@ -7,30 +7,31 @@
 #include <scalefinder/chord_quals.h>
 #include <scalefinder/engine.h>
 #include <scalefinder/piano_key.h>
-#include <scalefinder/chord_quals.h>
+
+#include "cinder/audio/Context.h"
+#include "cinder/audio/GainNode.h"
+#include "cinder/audio/GenNode.h"
 
 namespace myapp {
 
 using scalefinder::ChordQual;
 
+// Used in drawing the keyboard
 const int kWhiteKeyHeight = 150;
 const int kWhiteKeyWidth = 30;
 const int kBlackKeyHeight = 100;
 const int kBlackKeyWidth = 20;
-
 const int pianox = 200;
 const int pianoy = 600;
 
 class MyApp : public cinder::app::App {
  public:
-  std::map<std::string, ChordQual> quals_map = {
-      {"M", ChordQual::kMajor},
-      {"m", ChordQual::kMinor},
-      {"o", ChordQual::kDiminished},
-      {"+", ChordQual::kAugmented},
-      {"0", ChordQual::kHalfDiminished},
-      {"7", ChordQual::kDominant}
-  };
+  // For some reason, it wouldn't let me place kQualsMap and kPianoKeys
+  // outside of this spot.
+  std::map<std::string, ChordQual> kQualsMap = {
+      {"M", ChordQual::kMajor},          {"m", ChordQual::kMinor},
+      {"o", ChordQual::kDiminished},     {"+", ChordQual::kAugmented},
+      {"0", ChordQual::kHalfDiminished}, {"dom", ChordQual::kDominant}};
 
   std::vector<scalefinder::PianoKey> kPianoKeys = {
       scalefinder::PianoKey("C4", 60, 0, true),
@@ -64,23 +65,33 @@ class MyApp : public cinder::app::App {
   void setup() override;
   void update() override;
   void draw() override;
-  void keyDown(cinder::app::KeyEvent) override;
 
  private:
+  /** Holds all the chord symbols that have been entered */
   scalefinder::Engine engine_;
+  /** The chord that the user wants to select scales from */
   scalefinder::ChordSymbol current_chord_;
+  /** The scale currently displayed on the piano */
   scalefinder::Scale current_scale_;
+
   std::vector<int> keynums_to_highlight;
-  static void DrawKey(const scalefinder::PianoKey& key, bool is_highlighted);
+  int selected_chord_index_;
+  int selected_scale_index_;
+  bool is_seventh;
+  std::chrono::time_point<std::chrono::system_clock> last_audio_play_time;
+  cinder::audio::GenNodeRef mGen;    // Gen's generate audio signals
+  cinder::audio::GainNodeRef mGain;  // Gain modifies the volume of the signal
+
   void DrawPiano();
+  static void DrawKey(const scalefinder::PianoKey& key, bool is_highlighted);
   void DrawChordInput();
   void DrawChordList();
   void DrawScaleList();
   void DrawScaleText();
-  static void PrintText(const std::string& text, const cinder::Color& color, const cinder::ivec2& size, const cinder::vec2& loc);
-  int selected_chord_index_;
-  int selected_scale_index_;
-  bool is_seventh;
+  void DrawPlaybackButton();
+  // Copied from the Snake assignment.
+  static void PrintText(const std::string& text, const cinder::Color& color,
+                        const cinder::ivec2& size, const cinder::vec2& loc);
 };
 
 }  // namespace myapp

@@ -37,8 +37,6 @@ class ChordSymbol {
 
   std::string GetName();
 
-  std::string ToString();
-
   std::vector<Scale> GetScales();
 
  private:

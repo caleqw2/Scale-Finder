@@ -23,3 +23,6 @@ actually starting work on the UI for chord input.
 
 4/29 - Essentially done with UI for chord input. Can now enter chords, see their scales in a menu, and view them on a piano.
 Next, I need to try to incorporate audio and make determinations about cleaning up the UI's look.
+
+4/30 - Project now has an audio playback feature where it plays the scale on a triangle wave. Sounds a little crude but
+probably adequate for this purpose. Also cleaned up UI and code in general.

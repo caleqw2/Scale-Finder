@@ -4,6 +4,7 @@
 
 #include "scalefinder/pitch.h"
 
+#include <cmath>
 #include <iostream>
 #include <vector>
 
@@ -156,6 +157,10 @@ int Pitch::GetLetter() { return letter_; }
 
 std::string Pitch::GetNote() {
   return kLetterNames[letter_] + kAccidentalNames[accidental_];
+}
+
+double Pitch::Hertz() {
+  return 440.0 * pow(2, ((Keynum() - 69) / 12.0));
 }
 
 }  // namespace scalefinder
