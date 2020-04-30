@@ -4,10 +4,14 @@
 #define FINALPROJECT_APPS_MYAPP_H_
 
 #include <cinder/app/App.h>
+#include <scalefinder/chord_quals.h>
 #include <scalefinder/engine.h>
 #include <scalefinder/piano_key.h>
+#include <scalefinder/chord_quals.h>
 
 namespace myapp {
+
+using scalefinder::ChordQual;
 
 const int kWhiteKeyHeight = 150;
 const int kWhiteKeyWidth = 30;
@@ -19,6 +23,15 @@ const int pianoy = 600;
 
 class MyApp : public cinder::app::App {
  public:
+  std::map<std::string, ChordQual> quals_map = {
+      {"M", ChordQual::kMajor},
+      {"m", ChordQual::kMinor},
+      {"o", ChordQual::kDiminished},
+      {"+", ChordQual::kAugmented},
+      {"0", ChordQual::kHalfDiminished},
+      {"7", ChordQual::kDominant}
+  };
+
   std::vector<scalefinder::PianoKey> kPianoKeys = {
       scalefinder::PianoKey("C4", 60, 0, true),
       scalefinder::PianoKey("C#4", 61, 15, false),
@@ -60,6 +73,10 @@ class MyApp : public cinder::app::App {
   std::vector<int> keynums_to_highlight;
   static void DrawKey(const scalefinder::PianoKey& key, bool is_highlighted);
   void DrawPiano();
+  void DrawChordInput();
+  void DrawChordList();
+  int selected_chord_index_;
+  bool is_seventh;
 };
 
 }  // namespace myapp

@@ -23,7 +23,7 @@ const std::map<ScaleType, std::vector<std::string>> scale_intervals = {
     {ScaleType::kLocrian, {"P1", "m2", "m3", "P4", "o5", "m6", "m7", "P8"}},
     {ScaleType::kSuperLocrian, {"P1", "M2", "m3", "P4", "o5", "m6", "m7", "P8"}},
     {ScaleType::kHalfWholeDim, {"P1", "m2", "m3", "M3", "+4", "P5", "M6", "m7", "P8"}},
-    {ScaleType::kWholeHalfDim, {"P1", "M2", "m3", "P4", "o5", "m6", "oo7", "P8"}},
+    {ScaleType::kWholeHalfDim, {"P1", "M2", "m3", "P4", "o5", "m6", "M6", "M7", "P8"}},
     {ScaleType::kWholeTone, {"P1", "M2", "M3", "+4", "+5", "+6", "P8"}},
     {ScaleType::kMelodicMinor, {"P1", "M2", "m3", "P4", "P5", "M6", "M7", "P8"}},
     {ScaleType::kMixolydian, {"P1", "M2", "M3", "P4", "P5", "M6", "m7", "P8"}}

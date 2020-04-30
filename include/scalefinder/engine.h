@@ -42,6 +42,8 @@ class Engine {
 
   std::vector<ChordSymbol> GetChords();
 
+  void AddChord(const ChordSymbol& new_chord);
+
  private:
   std::vector<ChordSymbol> chords_;
 };

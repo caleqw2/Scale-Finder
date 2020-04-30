@@ -68,4 +68,8 @@ std::vector<ChordSymbol> Engine::GetChords() {
   return chords_;
 }
 
+void Engine::AddChord(const ChordSymbol& new_chord) {
+  chords_.push_back(new_chord);
+}
+
 } // namespace scalefinder

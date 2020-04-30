@@ -22,6 +22,7 @@ using scalefinder::ChordSymbol;
 
 // Pitch tests
 
+/*
 TEST_CASE("Pitch constructors") {
   SECTION("Valid input") {
     REQUIRE(Pitch("C3").ToString() == "C3");
@@ -117,4 +118,10 @@ TEST_CASE("Getting chord from a string") {
   std::string output = ss.str();
 
   REQUIRE(output == expected_out);
+}
+
+ */
+
+TEST_CASE("Debugging a diminished chord problem") {
+  ChordSymbol symbol = ChordSymbol(Pitch("C4"), scalefinder::ChordQual::kDiminished, false, "None", "Chord!");
 }

@@ -4,6 +4,7 @@
 
 #include "scalefinder/chord_symbol.h"
 
+#include <sstream>
 #include <utility>
 
 namespace scalefinder {
