@@ -30,6 +30,7 @@ void ChordSymbol::PopulateScales() {
         AddScale(ScaleType::kLydianMajor);
       } else {
         AddScale(ScaleType::kIonian);
+        AddScale(ScaleType::kLydianMajor);
       }
       break;
     case ChordQual::kMinor:

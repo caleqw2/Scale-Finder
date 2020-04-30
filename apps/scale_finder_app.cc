@@ -11,6 +11,8 @@
 
 namespace myapp {
 
+const char kNormalFont[] = "Arial";
+
 using cinder::app::KeyEvent;
 using cinder::Rectf;
 using scalefinder::Engine;
@@ -19,22 +21,21 @@ using scalefinder::ChordSymbol;
 using scalefinder::ChordQual;
 
 MyApp::MyApp() {
-
+  selected_chord_index_ = 0;
+  selected_scale_index_ = 0;
+  is_seventh = false;
 }
 
 void MyApp::setup() {
   ImGui::initialize();
   is_seventh = false;
-  engine_ = Engine("DbM7 F7b9 BbM7#11");
-  /*
-  for (int i = 0; i < engine_.GetChords().size(); ++i) {
-    std::cout << engine_.GetChords()[i].GetName() << std::endl;
-  } */
+  //  F7b9 BbM7#11
+  engine_ = Engine("DbM7");
 }
 
 void MyApp::update() {
   current_chord_ = engine_.GetChords()[selected_chord_index_];
-  current_scale_ = current_chord_.GetScales()[0];
+  current_scale_ = current_chord_.GetScales()[selected_scale_index_];
 
   keynums_to_highlight.clear();
   for (Pitch pitch : current_scale_.GetNotes()) {
@@ -46,24 +47,24 @@ void MyApp::draw() {
   cinder::gl::clear();
 
   DrawChordInput();
-
+  ImGui::Separator();
   DrawChordList();
-
-  // TODO: Draw a Combo to select potential scales from chords
-
-  // TODO: Draw text displaying the notes in the current scale
+  DrawScaleList();
 
   // TODO: Draw a help box for understanding chord input
 
-  // TODO:
+  // TODO: Fix choosing "dom" quality so the chord shows up as a 7.
+
+  // TODO: Incorporate audio with playback button
+
+  // TODO: Adjust window size and final graphics touches
 
   // Draws the piano.
+  DrawScaleText();
   DrawPiano();
 }
 
 void MyApp::keyDown(KeyEvent event) { }
-
-
 
 void MyApp::DrawPiano() {
   // Draws white keys first so black keys can be on top.
@@ -142,8 +143,8 @@ void MyApp::DrawChordInput() {
       ChordSymbol new_chord = ChordSymbol(p, quals_map[quals[item_current]], is_seventh, ext_str, chord_name);
       engine_.AddChord(new_chord);
 
-      std::cout << "Chord made!" << std::endl;
-      std::cout << new_chord.GetName() << std::endl;
+      selected_chord_index_ = engine_.GetChords().size() - 1;
+      std::cout << "Chord made: " << new_chord.GetName() << std::endl;
     } catch (std::runtime_error&) {
       std::cout << "Bad chord." << std::endl;
     }
@@ -157,6 +158,45 @@ void MyApp::DrawChordList() {
   }
   const char* c = chords_str_with_zeros.c_str();
   ImGui::Combo("Chords Added", &selected_chord_index_, c);
+}
+
+void MyApp::DrawScaleList() {
+  std::string scales_str_with_zeros;
+  for (size_t i = 0; i < current_chord_.GetScales().size(); ++i) {
+    scales_str_with_zeros += current_chord_.GetScales()[i].GetName() + '\0';
+  }
+  const char* c = scales_str_with_zeros.c_str();
+  ImGui::Combo("Possible Scales", &selected_scale_index_, c);
+}
+
+void MyApp::DrawScaleText() {
+  /*
+   * I was getting a bug where the program ran out of memory and crashed
+   * when I initialized the Engine to three chords and tried to select F
+   */
+  cinder::Color color = cinder::Color(1, 1, 1);
+  const cinder::vec2 center = {getWindowCenter().x, 500};
+  const cinder::ivec2 size = {800, 50};
+  PrintText(current_scale_.ToString(), color, size, center);
+}
+
+void MyApp::PrintText(const std::string& text, const cinder::Color& color,
+                      const cinder::ivec2& size, const glm::vec2& loc) {
+  cinder::gl::color(color);
+
+  auto box = cinder::TextBox()
+      .alignment(cinder::TextBox::CENTER)
+      .font(cinder::Font(kNormalFont, 30))
+      .size(size)
+      .color(color)
+      .backgroundColor(cinder::ColorA(0, 0, 0, 0))
+      .text(text);
+
+  const auto box_size = box.getSize();
+  const cinder::vec2 locp = {loc.x - box_size.x / 2, loc.y - box_size.y / 2};
+  const auto surface = box.render();
+  const auto texture = cinder::gl::Texture::create(surface);
+  cinder::gl::draw(texture, locp);
 }
 
 }  // namespace myapp

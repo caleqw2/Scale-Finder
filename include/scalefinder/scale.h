@@ -60,6 +60,7 @@ class Scale {
   std::string ToString();
   friend std::ostream& operator<<(std::ostream& os, Scale& scale);
   const std::vector<Pitch>& GetNotes() const;
+  std::string GetName();
  private:
   std::string name_; // e.g. (B Major or C# Dorian)
   std::vector<Pitch> notes_;

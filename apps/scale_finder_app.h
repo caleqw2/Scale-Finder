@@ -75,7 +75,11 @@ class MyApp : public cinder::app::App {
   void DrawPiano();
   void DrawChordInput();
   void DrawChordList();
+  void DrawScaleList();
+  void DrawScaleText();
+  static void PrintText(const std::string& text, const cinder::Color& color, const cinder::ivec2& size, const cinder::vec2& loc);
   int selected_chord_index_;
+  int selected_scale_index_;
   bool is_seventh;
 };
 

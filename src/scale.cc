@@ -53,4 +53,6 @@ std::ostream& operator<<(std::ostream& os, Scale& scale) {
 
 const std::vector<Pitch>& Scale::GetNotes() const { return notes_; }
 
+std::string Scale::GetName() { return name_; }
+
 }  // namespace scalefinder
