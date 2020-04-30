@@ -20,3 +20,6 @@ chord symbols with Scales.
 
 4/27 - Cleaned up all code according to the Google guidelines, wrote unit tests, and updated documentation. Next up is
 actually starting work on the UI for chord input.
+
+4/29 - Essentially done with UI for chord input. Can now enter chords, see their scales in a menu, and view them on a piano.
+Next, I need to try to incorporate audio and make determinations about cleaning up the UI's look.
