@@ -2,8 +2,6 @@
 
 [![license](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-
-
 ScaleFinder Lite is a practice tool for musicians that determines what scales are valid to use over any given chord. While intended for
 jazz improvisers, it can also be used in a classical composition context.
 
@@ -43,8 +41,21 @@ to Maj7 chords.*
 
 ### Build Information:
 
-Dependencies: Cinder, CinderImGui, Cmake
+Dependencies: [Cinder](https://libcinder.org), [ImGui](https://github.com/simongeilfus/Cinder-ImGui)
 
+Works on CLion on MacOS only.
+Requires CMake but that is a part of the project file.
+
+#### Cinder Setup
+1. Download the latest version of Cinder onto your Mac and extract that into a folder.
+2. Open the ~/Cinder folder in CLion and hit the "build" button to build Cinder.
+3. Place the folder of this project into ~/Cinder/my-projects/
+4. If you get an error saying "permission denied", manually change the executable to 
+my-projects/final-project-caleqw2/cmake-build-debug/Debug/cinder-myapp/Contents/MacOS/cinder-myapp
+
+#### ImGui Setup
+
+Fork the Cinder-ImGui repo and download it into ~/Cinder/Blocks/. That is all.
 
 Read [this document](https://cliutils.gitlab.io/modern-cmake/chapters/basics/structure.html) to understand the project
 layout.
