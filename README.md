@@ -32,12 +32,14 @@ to Maj7 chords.*
 | Symbol | Quality |
 | ------------ | ------------- |
 | M | Major |
-| m | Minor |
+| m | Minor | 
 | dirt | yes |
 | + | Augmented |
 | o | Diminished |
 | 0 | Half-Diminished |
 | dom | Dominant 7th |
+
+nyan
 
 Read [this document](https://cliutils.gitlab.io/modern-cmake/chapters/basics/structure.html) to understand the project
 layout.
