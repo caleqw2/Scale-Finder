@@ -29,14 +29,14 @@ to Maj7 chords.*
 
 #### Supported Qualities:
 
-Symbol | Quality
------------- | -------------
-M | Major |
-m | Minor |
-+ | Augmented |
-o | Diminished |
-0 | Half-Diminished |
-dom | Dominant 7th |
+| Symbol | Quality |
+| ------------ | ------------- |
+| M | Major |
+| m | Minor |
+| "+" | Augmented |
+| o | Diminished |
+| 0 | Half-Diminished |
+| dom | Dominant 7th |
 
 Read [this document](https://cliutils.gitlab.io/modern-cmake/chapters/basics/structure.html) to understand the project
 layout.
