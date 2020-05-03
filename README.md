@@ -1,4 +1,4 @@
-# ScaleFinder Lite :musical_note:
+# ScaleFinder Lite :musical_score:
 
 [![license](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
@@ -11,8 +11,8 @@ jazz improvisers, it can also be used in a classical composition context.
 
 - Supports all **standard practice chord qualities**: major, minor, diminished, augmented, and half-diminished
 - Can spell out all pitches in a given scale with correct **enharmonic equivalents** (including bb and ##)
-- Contains a **piano visualizer** to intuitively view generated scales
-- Can **play back scale audio** on a simple triangle wave
+- Contains a **piano visualizer** to intuitively view generated scales :musical_keyboard:
+- Can **play back scale audio** on a simple triangle wave :sound:
 
 ### Usage:
 
@@ -20,7 +20,10 @@ Simply enter a chord by inputting its:
 - Tonic (e.g. C in Cmaj7#11)
 - Quality (e.g. Major in Cmaj7#11)
 - Whether it is a seventh chord or triad
-- Extensions (e.g. #11, alt, b9)    
+- Extensions (e.g. #11, alt, b9)
+
+After entry, chords and their respective scales can be viewed in dropdown menus and will be displayed on the piano
+when selected.
     
 *For dominant seventh chords like C7, choose the "dom" quality.*
 
@@ -37,6 +40,10 @@ to Maj7 chords.*
 | + | Augmented |
 | o | Diminished |
 | 0 | Half-Diminished |
+
+### Build Information:
+
+Dependencies: Cinder, CinderImGui, Cmake
 
 
 Read [this document](https://cliutils.gitlab.io/modern-cmake/chapters/basics/structure.html) to understand the project
