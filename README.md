@@ -1,4 +1,4 @@
-# ScaleFinder Lite
+# ScaleFinder Lite :musical_note:
 
 [![license](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
