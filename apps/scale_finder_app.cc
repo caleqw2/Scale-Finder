@@ -133,7 +133,7 @@ void MyApp::DrawChordInput() {
   if (ImGui::RadioButton("7", is_seventh)) {
     is_seventh = true;
   }
-  if (ImGui::RadioButton("No 7", !is_seventh)) {
+  if (ImGui::RadioButton("Triad", !is_seventh)) {
     is_seventh = false;
   }
   std::string seventh_str;
