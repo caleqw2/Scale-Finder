@@ -26,3 +26,5 @@ Next, I need to try to incorporate audio and make determinations about cleaning 
 
 4/30 - Project now has an audio playback feature where it plays the scale on a triangle wave. Sounds a little crude but
 probably adequate for this purpose. Also cleaned up UI and code in general.
+
+5/3 - Wrote README.md and finished cleaning up code. Project is ready to submit.
