@@ -33,13 +33,11 @@ to Maj7 chords.*
 | ------------ | ------------- |
 | M | Major |
 | m | Minor | 
-| dirt | yes |
+| dom | Dominant 7th |
 | + | Augmented |
 | o | Diminished |
 | 0 | Half-Diminished |
-| dom | Dominant 7th |
 
-nyan
 
 Read [this document](https://cliutils.gitlab.io/modern-cmake/chapters/basics/structure.html) to understand the project
 layout.
