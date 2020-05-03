@@ -33,7 +33,8 @@ to Maj7 chords.*
 | ------------ | ------------- |
 | M | Major |
 | m | Minor |
-| "+" | Augmented |
+| dirt | yes |
+| + | Augmented |
 | o | Diminished |
 | 0 | Half-Diminished |
 | dom | Dominant 7th |
