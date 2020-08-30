@@ -43,7 +43,6 @@ to Maj7 chords.*
 
 Dependencies: [Cinder](https://libcinder.org), [ImGui](https://github.com/simongeilfus/Cinder-ImGui)
 
-Works on CLion on MacOS only.
 Requires CMake but that is a part of the project file.
 
 #### Cinder Setup
